@@ -5,14 +5,27 @@ import java.time.LocalDateTime;
 public class ExpenseDto {
     private int expense_id;
     private String expenseName;
-    private double costOfSpending;
+    private Double costOfSpending;
     private LocalDateTime dateTimeExpense;
     private String expenseCategory;
     private String expenseDescription;
 
     public ExpenseDto() {
     }
-    public ExpenseDto(int expense_id, String expenseName, double costOfSpending, LocalDateTime dateTimeExpense, String expenseCategory, String expenseDescription) {
+    public ExpenseDto(int expense_id,String expenseName ){
+        this.expense_id = expense_id;
+        this.expenseName = expenseName;
+    }
+    public ExpenseDto(int expense_id,Double costOfSpending){
+        this.expense_id = expense_id;
+        this.costOfSpending = costOfSpending;
+    }
+    public ExpenseDto(int expense_id,LocalDateTime dateTimeExpense){
+        this.expense_id = expense_id;
+        this.dateTimeExpense = dateTimeExpense;
+    }
+    public ExpenseDto(int expense_id, String expenseName, Double costOfSpending, LocalDateTime dateTimeExpense, String expenseCategory, String expenseDescription) {
+        this.expense_id = expense_id;
         this.expenseName = expenseName;
         this.costOfSpending = costOfSpending;
         this.dateTimeExpense = dateTimeExpense;
@@ -36,11 +49,11 @@ public class ExpenseDto {
         this.expenseName = expenseName;
     }
 
-    public double getCostOfSpending() {
+    public Double getCostOfSpending() {
         return costOfSpending;
     }
 
-    public void setCostOfSpending(double costOfSpending) {
+    public void setCostOfSpending(Double costOfSpending) {
         this.costOfSpending = costOfSpending;
     }
 
