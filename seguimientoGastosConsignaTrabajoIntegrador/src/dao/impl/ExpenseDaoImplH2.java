@@ -104,29 +104,41 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
 
     @Override
     public void updateAll (ExpenseDto expenseDto) {
+        String findExpenses = "SELECT * FROM EXPENSE_TRACKING.EXPENSES WHERE expense_id = ?";
         String update = "UPDATE EXPENSE_TRACKING.EXPENSES SET expense_name = ?, " +
                 "cost_of_spending = ?, date_time_expense = ?, expense_category = ?, " +
                 "expense_description = ? WHERE expense_id = ?";
 
         try {
-            Expense newExpense = new Expense();
-            newExpense.setExpense_id(expenseDto.getExpense_id());
-            newExpense.setExpenseName(expenseDto.getExpenseName());
-            newExpense.setCostOfSpending(expenseDto.getCostOfSpending());
-            newExpense.setDateTimeExpense(expenseDto.getDateTimeExpense());
-            newExpense.setExpenseCategory(expenseDto.getExpenseCategory());
-            newExpense.setExpenseCategory(expenseDto.getExpenseDescription());
+            // Verificar si el registro con el expense_id existe en la base de datos
+            PreparedStatement selectStatement = connection.prepareStatement(findExpenses);
+            selectStatement.setInt(1, expenseDto.getExpense_id());
+            ResultSet resultSet = selectStatement.executeQuery();
 
-            PreparedStatement preparedStatement = connection.prepareStatement(update);
-            preparedStatement.setString(1, newExpense.getExpenseName());
-            preparedStatement.setDouble(2, newExpense.getCostOfSpending());
-            preparedStatement.setTimestamp(3, Timestamp.valueOf(newExpense.getDateTimeExpense()));
-            preparedStatement.setString(4, newExpense.getExpenseCategory());
-            preparedStatement.setString(5, newExpense.getExpenseDescription());
-            preparedStatement.setInt(6, newExpense.getExpense_id());
-            preparedStatement.executeUpdate();
+            if (resultSet.next()){
+                Expense newExpense = new Expense();
+                newExpense.setExpense_id(expenseDto.getExpense_id());
+                newExpense.setExpenseName(expenseDto.getExpenseName());
+                newExpense.setCostOfSpending(expenseDto.getCostOfSpending());
+                newExpense.setDateTimeExpense(expenseDto.getDateTimeExpense());
+                newExpense.setExpenseCategory(expenseDto.getExpenseCategory());
+                newExpense.setExpenseCategory(expenseDto.getExpenseDescription());
 
-            preparedStatement.close();
+                PreparedStatement preparedStatement = connection.prepareStatement(update);
+                preparedStatement.setString(1, newExpense.getExpenseName());
+                preparedStatement.setDouble(2, newExpense.getCostOfSpending());
+                preparedStatement.setTimestamp(3, Timestamp.valueOf(newExpense.getDateTimeExpense()));
+                preparedStatement.setString(4, newExpense.getExpenseCategory());
+                preparedStatement.setString(5, newExpense.getExpenseDescription());
+                preparedStatement.setInt(6, newExpense.getExpense_id());
+                preparedStatement.executeUpdate();
+
+                preparedStatement.close();
+            } else {
+                System.out.println("No se encontró ningún registro con el ID proporcionado.");
+            }
+            selectStatement.close();
+            resultSet.close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -297,7 +309,7 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
     }
 
     @Override
-    public Map<String, Object> filterExpensesForTheWeek(LocalDate startDate, LocalDate endDate) {
+    public Map<String, Object> filterExpensesInDateRange(LocalDate startDate, LocalDate endDate) {
         Map<String, Object> result = new HashMap<>();
 
         List<ExpenseDto> expenseDtos = getAll().stream()
