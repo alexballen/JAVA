@@ -32,6 +32,6 @@ public interface ExpenseDao {
 
     //FILTERS STREAM-API
     List<ExpenseDto> filterExpensesOfTheDay ();
-    Map<String, Object> filterExpensesForTheWeek (LocalDate startDate, LocalDate endDate);
+    Map<String, Object> filterExpensesInDateRange(LocalDate startDate, LocalDate endDate);
 
 }
