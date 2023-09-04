@@ -2,6 +2,7 @@ package dao.impl;
 
 import config.JdbcConfig;
 import dao.ExpenseDao;
+import dao.ExpenseSearchDao;
 import dao.dto.ExpenseDto;
 import entities.Expense;
 
@@ -15,7 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
-public class ExpenseDaoImplH2 implements ExpenseDao {
+public class ExpenseDaoImplH2 implements ExpenseDao, ExpenseSearchDao {
 
     private final Connection connection;
 
@@ -103,26 +104,41 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
     }
 
     @Override
-    public void updateAll (ExpenseDto expenseDto) {
+    public boolean expenseSearch(ExpenseDto expenseDto) {
         String findExpenses = "SELECT * FROM EXPENSE_TRACKING.EXPENSES WHERE expense_id = ?";
+
+        // Verificar si el registro con el expense_id existe en la base de datos
+        try {
+            PreparedStatement selectStatement2 = connection.prepareStatement(findExpenses);
+            selectStatement2.setInt(1, expenseDto.getExpense_id());
+            ResultSet resultSet = selectStatement2.executeQuery();
+
+            if (resultSet.next()){
+                return true;
+            }  else {
+                return false;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public void updateAll (ExpenseDto expenseDto) {
         String update = "UPDATE EXPENSE_TRACKING.EXPENSES SET expense_name = ?, " +
                 "cost_of_spending = ?, date_time_expense = ?, expense_category = ?, " +
                 "expense_description = ? WHERE expense_id = ?";
 
         try {
-            // Verificar si el registro con el expense_id existe en la base de datos
-            PreparedStatement selectStatement = connection.prepareStatement(findExpenses);
-            selectStatement.setInt(1, expenseDto.getExpense_id());
-            ResultSet resultSet = selectStatement.executeQuery();
-
-            if (resultSet.next()){
                 Expense newExpense = new Expense();
+
                 newExpense.setExpense_id(expenseDto.getExpense_id());
                 newExpense.setExpenseName(expenseDto.getExpenseName());
                 newExpense.setCostOfSpending(expenseDto.getCostOfSpending());
                 newExpense.setDateTimeExpense(expenseDto.getDateTimeExpense());
                 newExpense.setExpenseCategory(expenseDto.getExpenseCategory());
-                newExpense.setExpenseCategory(expenseDto.getExpenseDescription());
+                newExpense.setExpenseDescription(expenseDto.getExpenseDescription());
 
                 PreparedStatement preparedStatement = connection.prepareStatement(update);
                 preparedStatement.setString(1, newExpense.getExpenseName());
@@ -134,12 +150,6 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
                 preparedStatement.executeUpdate();
 
                 preparedStatement.close();
-            } else {
-                System.out.println("No se encontró ningún registro con el ID proporcionado.");
-            }
-            selectStatement.close();
-            resultSet.close();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -262,7 +272,7 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
 
         List<ExpenseDto> filteredExpenses = new ArrayList<>();
         for (ExpenseDto expenseDto: expenseDtos){
-            if(expenseDto.getExpenseName().equalsIgnoreCase(name)){
+            if(expenseDto.getExpenseName().toLowerCase().contains(name.toLowerCase())){
                 filteredExpenses.add(expenseDto);
             }
         }
@@ -275,7 +285,7 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
 
         List<ExpenseDto> filteredExpenses = new ArrayList<>();
         for (ExpenseDto expenseDto: expenseDtos){
-            if(expenseDto.getExpenseCategory().equalsIgnoreCase(category)){
+            if(expenseDto.getExpenseCategory().toLowerCase().contains(category.toLowerCase())){
                 filteredExpenses.add(expenseDto);
             }
         }
@@ -334,5 +344,6 @@ public class ExpenseDaoImplH2 implements ExpenseDao {
 
         return result;
     }
+
 
 }
