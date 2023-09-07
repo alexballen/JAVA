@@ -7,7 +7,6 @@ import dao.impl.ExpenseDaoImplH2;
 import expenseServices.*;
 import expenseServices.interfaces.*;
 
-import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Main {
@@ -31,88 +30,9 @@ public class Main {
         LookUpTotalAnnualExpensesInt lookUpTotalAnnualExpensesInt = new LookUpTotalAnnualExpenses();
         SearchByDateRangeExpensesInt searchByDateRangeExpensesInt = new SearchByDateRangeExpenses();
 
+        //updateCategoryFieldInt.updateCategory();
+
         Scanner scanner = new Scanner(System.in);
-
-        //------------------------------------------------
-        //CREAR UN NUEVO GASTO
-        /*expenseDto = newExpense.addName();
-        expenseDao.insert(expenseDto);
-
-        System.out.println(expenseDto.getExpenseName());
-        System.out.println(expenseDto.getCostOfSpending());*/
-        //--------------------------------------------------
-        //ACTUALIZAR TODOS LOS CAMPOS DE UN GASTO
-        /*expenseDto = allExpenseUpdate.expenseUpdateAll();
-        expenseDao.updateAll(expenseDto);
-
-        System.out.println(expenseDto.getExpenseName());
-        System.out.println(expenseDto.getCostOfSpending());*/
-        //---------------------------------------------------
-        //ACTUALIZAR EL CAMPO NOMBRE DE UN GASTO
-        /*expenseDto = updateNameField.updateName();
-        expenseDao.updateName(expenseDto);
-hk
-
-        System.out.println(expenseDto.getExpenseName());*/
-        //---------------------------------------------------
-        //ACTUALIZAR EL CAMPO COSTO DE UN GASTO
-        /*expenseDto = updateExpenseFieldInt.updateExpense();
-        expenseDao.costUpdate(expenseDto);
-
-        System.out.println(expenseDto.getCostOfSpending());*/
-        //----------------------------------------------------
-        //ACTUALIZAR EL CAMPO CATEGORIA DE UN GASTO
-        /*expenseDto = updateCategoryFieldInt.updateCategory();
-        expenseDao.categoryUpdate(expenseDto);
-
-        System.out.println(expenseDto.getExpenseCategory());*/
-        //-----------------------------------------------------
-        //ACTUALIZAR EL CAMPO DESCRIPCION DE UN GASTO
-        /*expenseDto = updateDescriptionFieldInt.updateDescription();
-        expenseDao.descriptionUpdate(expenseDto);
-
-        System.out.println(expenseDto.getExpenseDescription());*/
-
-
-        //-------------------------------------------------------
-        //FILTRO POR NOMBRE DE GASTO
-        //searchExpenseNameInt.searchExpenseByName();
-
-
-        //-------------------------------------------------------
-        //FILTRO POR CATEGORIA DE GASTO
-        //searchExpenseCategoryInt.searchExpenseByCategory();
-
-
-        //-------------------------------------------------------
-        //FILTRO POR DESCRIPCION DE GASTO
-        //searchExpenseDescriptionInt.searchExpenseByDescription();
-
-
-        //-------------------------------------------------------
-        //FILTRAR GASTOS POR DIA CON SU TOTAL
-        //lookUpTotalDailyExpensesInt.totalDailyExpenses();
-
-
-        //--------------------------------------------------------
-        //FILTRAR GASTOS POR SEMANA CON SU TOTAL
-        //findTotalWeeklyExpensesInt.totalWeeklyExpenses();
-
-
-        //--------------------------------------------------------
-        //FILTRAR GASTOS POR MES CON SU TOTAL
-        //findTotalMonthlyExpensesInt.totalMonthlyExpenses();
-
-
-        //--------------------------------------------------------
-        //FILTRAR GASTOS POR AÑO CON SU TOTAL
-        //lookUpTotalAnnualExpensesInt.totalAnnualExpenses();
-
-
-        //--------------------------------------------------------
-        //FILTRAR GASTOS POR UN RANGO DE FECHAS
-        //searchByDateRangeExpensesInt.searchByDateRange();
-        //---------------------------------------------------------
 
         int categoryOption;
         boolean exit = false;
@@ -139,9 +59,10 @@ hk
             System.out.println("Opción 14 - Filtrar gastos por rango de Fechas¡");
             System.out.println("Opción 15 - Salir¡");
 
-            // Verificar si la opcion seleccionada es un entero
-            if (scanner.hasNextInt()) {
+            if(scanner.hasNextInt()){
                 categoryOption = scanner.nextInt();
+                scanner.nextLine(); // Consumir la línea en blanco
+
                 if (categoryOption >= 1 && categoryOption <= 15) {
                     switch (categoryOption) {
                         case 1:
@@ -196,15 +117,16 @@ hk
                             exit = true;
                             System.out.println("Gracias, vuelva pronto¡");
                             break;
-                    }
+                    }                   
                 } else {
-                    System.out.println("Debes ingresar una opción válida (del 1 al 15).");
+                    System.out.println("Debes ingresar una opcion entre (1 - 15)");
                 }
             } else {
                 System.out.println("Debes ingresar un número entero.");
                 scanner.nextLine(); // Consumir la línea en blanco
                 categoryOption = 0; // Reiniciar la variable
             }
-        } while (!exit);
+        } while (categoryOption < 1 || categoryOption > 15);
+        scanner.close();
     }
 }
