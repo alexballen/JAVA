@@ -131,7 +131,6 @@ public class EnterNewExpense implements NewExpense {
         } while (descriptionOfExpenses.isEmpty() || descriptionOfExpenses.length() < 5 || descriptionOfExpenses.length() > 70);
 
         System.out.println("Datos ingresados exitosamente¡¡");
-        scanner.close();
 
         return expenseDto;
     }

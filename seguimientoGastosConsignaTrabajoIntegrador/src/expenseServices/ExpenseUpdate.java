@@ -168,7 +168,6 @@ public class ExpenseUpdate implements AllExpenseUpdate {
             expenseDto.setExpenseDescription(descriptionOfExpenses);
         }
         System.out.println("Datos ingresados exitosamente¡¡");
-        scanner.close();
 
         return expenseDto;
     }
