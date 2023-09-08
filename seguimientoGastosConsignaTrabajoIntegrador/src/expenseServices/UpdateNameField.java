@@ -71,8 +71,6 @@ public class UpdateNameField implements UpdateNameFieldInt {
             expenseDto.setDateTimeExpense(currentDateTimeName);
         }
 
-        scanner.close();
-
         return expenseDto;
     }
 }
