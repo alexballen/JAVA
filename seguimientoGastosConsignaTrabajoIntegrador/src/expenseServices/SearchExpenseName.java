@@ -50,6 +50,5 @@ public class SearchExpenseName implements SearchExpenseNameInt {
         } else {
             System.out.println("No se encontro informacion relacionada¡");
         }
-        scanner.close();
     }
 }

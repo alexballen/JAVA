@@ -124,8 +124,6 @@ public class UpdateCategoryField implements UpdateCategoryFieldInt {
             System.out.println("Campo actualizado con exito¡");
         }
 
-        scanner.close();
-
         return expenseDto;
     }
 }
