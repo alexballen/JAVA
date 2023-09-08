@@ -71,7 +71,6 @@ public class UpdateExpenseField implements UpdateExpenseFieldInt {
             System.out.println("Campo actualizado con exito¡");
         }
         System.out.println("Datos ingresados exitosamente¡¡");
-        scanner.close();
 
         return expenseDto;
     }

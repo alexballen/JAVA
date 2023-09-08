@@ -68,8 +68,6 @@ public class UpdateDescriptionField implements UpdateDescriptionFieldInt {
             System.out.println("Campo actualizado con exito¡");
         }
 
-        scanner.close();
-
         return expenseDto;
     }
 }
