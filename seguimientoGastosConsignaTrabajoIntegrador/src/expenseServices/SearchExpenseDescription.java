@@ -49,6 +49,5 @@ public class SearchExpenseDescription implements SearchExpenseDescriptionInt {
         } else {
             System.out.println("No se encontro informacion relacionada¡");
         }
-        scanner.close();
     }
 }
