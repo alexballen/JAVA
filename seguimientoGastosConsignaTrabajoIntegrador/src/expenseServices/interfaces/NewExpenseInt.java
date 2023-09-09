@@ -2,6 +2,6 @@ package expenseServices.interfaces;
 
 import dao.dto.ExpenseDto;
 @FunctionalInterface
-public interface NewExpense {
+public interface NewExpenseInt {
     ExpenseDto addName ();
 }
