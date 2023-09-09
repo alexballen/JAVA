@@ -32,7 +32,6 @@ public class OptionMenu implements OptionMenuInt {
                     break;
                 case 2:
                     exit = true;
-                    System.out.println("Gracias, vuelva pronto¡");
                     break;
             }
         } else {
@@ -79,8 +78,8 @@ public class OptionMenu implements OptionMenuInt {
         ExpenseDao expenseDao = new ExpenseDaoImplH2();
         ExpenseSearchDao expenseSearchDao = new ExpenseDaoImplH2();
         ExpenseDto expenseDto = new ExpenseDto();
-        NewExpense newExpense = new EnterNewExpense();
-        AllExpenseUpdate allExpenseUpdate = new ExpenseUpdate();
+        NewExpenseInt newExpense = new NewExpense();
+        ExpenseUpdateInt allExpenseUpdate = new ExpenseUpdate();
         UpdateNameField updateNameField = new UpdateNameField();
         UpdateExpenseFieldInt updateExpenseFieldInt = new UpdateExpenseField();
         UpdateCategoryFieldInt updateCategoryFieldInt = new UpdateCategoryField();
@@ -147,7 +146,7 @@ public class OptionMenu implements OptionMenuInt {
                     break;
                 case 15:
                     exit = true;
-                    System.out.println("Gracias, vuelva pronto¡");
+                    //System.out.println("Gracias, vuelva pronto¡");
                     break;
             }
         } else {
