@@ -3,47 +3,22 @@ package expenseServices;
 import dao.ExpenseSearchDao;
 import dao.dto.ExpenseDto;
 import dao.impl.ExpenseDaoImplH2;
-import expenseServices.interfaces.AllExpenseUpdate;
+import expenseServices.interfaces.ExpenseUpdateInt;
+import expenseServices.interfaces.SearchExpenseDBInt;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Scanner;
 
-public class ExpenseUpdate implements AllExpenseUpdate {
+public class ExpenseUpdate implements ExpenseUpdateInt {
     @Override
     public ExpenseDto expenseUpdateAll() {
-        ExpenseDto expenseDto = new ExpenseDto();
-        Scanner scanner = new Scanner(System.in);
-        ExpenseSearchDao expenseSearchDao = new ExpenseDaoImplH2();
+        SearchExpenseDBInt searchExpenseDBInt = new SearchExpenseDB();
+        Map<String, Object> result = searchExpenseDBInt.searchExpense();
 
-         System.out.println("Actualizar un gasto¡");
-
-        //EDICION DE TODOS LOS CAMPOS DE UN GASTO
-        //SE SOLICITA EL ID DEL GASTO A EDITAR, SI EXISTE PERMITE CONTINUAR CON EL INGRESO
-        //DE LOS DEMAS CAMPOS, SI NO EXITE DEVUELVE UN MENSAJE QUE INDICA QUE NO SE HAYO EL ID EN LA DB.
-
-        int expenseId;
-        boolean foundRecord;
-        do {
-            System.out.println("Ingresa el ID del gasto que deseas actualizar: ");
-            if (scanner.hasNextInt()){
-                expenseId = scanner.nextInt();
-                expenseDto.setExpense_id(expenseId);
-
-                //SE EJECUTA EL METODO EXPENSESEARCHDAO PARA VERIFICAR SI EL REGITRO EXISTE
-                foundRecord = expenseSearchDao.expenseSearch(expenseDto);
-                if (!foundRecord) {
-                    System.out.println("No existe el ID proporcionado, ingresa un ID valido.");
-                    foundRecord = false;
-                } else {
-                    foundRecord = true;
-                }
-            } else {
-                System.out.println("Debes ingresar un número entero.");
-                scanner.nextLine(); //CONSUMIR LA LINEA EN BLANCO
-                expenseId = 0;
-                foundRecord = false;
-            }
-        } while (!foundRecord);
+        ExpenseDto expenseDto = (ExpenseDto) result.get("expenseDto");
+        boolean foundRecord = (boolean) result.get("foundRecord");
+        Scanner scanner = (Scanner) result.get("Scanner");
 
         if (foundRecord){
              //INGRESAR EL NUEVO VALOR DEL NOMBRE DEL GASTO
