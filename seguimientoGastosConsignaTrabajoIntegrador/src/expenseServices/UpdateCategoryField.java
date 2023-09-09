@@ -1,46 +1,21 @@
 package expenseServices;
 
-import dao.ExpenseSearchDao;
 import dao.dto.ExpenseDto;
-import dao.impl.ExpenseDaoImplH2;
+import expenseServices.interfaces.SearchExpenseDBInt;
 import expenseServices.interfaces.UpdateCategoryFieldInt;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Scanner;
-
 public class UpdateCategoryField implements UpdateCategoryFieldInt {
     @Override
     public ExpenseDto updateCategory() {
-        ExpenseDto expenseDto = new ExpenseDto();
-        Scanner scanner = new Scanner(System.in);
-        ExpenseSearchDao expenseSearchDao = new ExpenseDaoImplH2();
+        SearchExpenseDBInt searchExpenseDBInt = new SearchExpenseDB();
+        Map<String, Object> result = searchExpenseDBInt.searchExpense();
 
-        //EDICION DE UN CAMPO ESPECIFICO DE UN GASTO
-        System.out.println("Actualizar el campo categoria de un gasto¡");
-
-        int expenseId;
-        boolean foundRecord;
-        do {
-            System.out.println("Ingresa el ID del gasto que deseas actualizar: ");
-            if (scanner.hasNextInt()){
-                expenseId = scanner.nextInt();
-                expenseDto.setExpense_id(expenseId);
-
-                // Llamar al método updateAll para verificar si el registro existe
-                foundRecord = expenseSearchDao.expenseSearch(expenseDto);
-                if (!foundRecord) {
-                    System.out.println("No existe el ID proporcionado, ingresa un ID valido.");
-                    foundRecord = false;
-                } else {
-                    foundRecord = true;
-                }
-            } else {
-                System.out.println("Debes ingresar un número entero.");
-                scanner.nextLine();
-                expenseId = 0;
-                foundRecord = false;
-            }
-        } while (!foundRecord);
+        ExpenseDto expenseDto = (ExpenseDto) result.get("expenseDto");
+        boolean foundRecord = (boolean) result.get("foundRecord");
+        Scanner scanner = (Scanner) result.get("Scanner");
 
         if (foundRecord) {
             //SE DEBE SELECCIONAR EL NUEVO VALOR DE LA CATEGORIA
@@ -59,10 +34,8 @@ public class UpdateCategoryField implements UpdateCategoryFieldInt {
                 System.out.println("Opción 9 - Viajes");
                 System.out.println("Opción 10 - Mascotas");
 
-                // Verificar si la opcion seleccionada es un entero
                 if (scanner.hasNextInt()) {
                     categoryOption = scanner.nextInt();
-                    scanner.nextLine(); // Consumir la línea en blanco
                     if (categoryOption >= 1 && categoryOption <= 10) {
                         switch (categoryOption) {
                             case 1:
@@ -123,7 +96,6 @@ public class UpdateCategoryField implements UpdateCategoryFieldInt {
 
             System.out.println("Campo actualizado con exito¡");
         }
-
         return expenseDto;
     }
 }
