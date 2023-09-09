@@ -1,12 +1,12 @@
 package expenseServices;
 
 import dao.dto.ExpenseDto;
-import expenseServices.interfaces.NewExpense;
+import expenseServices.interfaces.NewExpenseInt;
 
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-public class EnterNewExpense implements NewExpense {
+public class NewExpense implements NewExpenseInt {
     @Override
     public ExpenseDto addName() {
         ExpenseDto expenseDto = new ExpenseDto();
