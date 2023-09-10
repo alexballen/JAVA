@@ -81,7 +81,7 @@ public class OptionMenu implements OptionMenuInt {
         NewExpenseInt newExpense = new NewExpense();
         ExpenseUpdateInt allExpenseUpdate = new ExpenseUpdate();
         UpdateNameField updateNameField = new UpdateNameField();
-        UpdateExpenseFieldInt updateExpenseFieldInt = new UpdateExpenseField();
+        UpdateCostFieldInt updateExpenseFieldInt = new UpdateCostField();
         UpdateCategoryFieldInt updateCategoryFieldInt = new UpdateCategoryField();
         UpdateDescriptionFieldInt updateDescriptionFieldInt = new UpdateDescriptionField();
         SearchExpenseNameInt searchExpenseNameInt = new SearchExpenseName();
@@ -109,7 +109,7 @@ public class OptionMenu implements OptionMenuInt {
                     expenseDao.updateName(expenseDto);
                     break;
                 case 4:
-                    expenseDto = updateExpenseFieldInt.updateExpense();
+                    expenseDto = updateExpenseFieldInt.updateCost();
                     expenseDao.costUpdate(expenseDto);
                     break;
                 case 5:
