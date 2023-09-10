@@ -3,6 +3,7 @@ package expenseServices;
 import dao.ExpenseSearchDao;
 import dao.dto.ExpenseDto;
 import dao.impl.ExpenseDaoImplH2;
+import expenseServices.interfaces.ScannerProviderInt;
 import expenseServices.interfaces.SearchExpenseDBInt;
 
 import java.util.HashMap;
@@ -14,8 +15,10 @@ public class SearchExpenseDB implements SearchExpenseDBInt {
         Map<String, Object> result = new HashMap<>();
 
         ExpenseDto expenseDto = new ExpenseDto();
-        Scanner scanner = new Scanner(System.in);
         ExpenseSearchDao expenseSearchDao = new ExpenseDaoImplH2();
+
+        ScannerProviderInt scannerProviderInt = new ScannerProvider();
+        Scanner scanner = scannerProviderInt.getScannerInstance();
 
         int expenseId;
         boolean foundRecord;
@@ -43,7 +46,6 @@ public class SearchExpenseDB implements SearchExpenseDBInt {
 
         result.put("expenseDto", expenseDto);
         result.put("foundRecord", foundRecord);
-        result.put("Scanner", scanner);
 
         return result;
     }
