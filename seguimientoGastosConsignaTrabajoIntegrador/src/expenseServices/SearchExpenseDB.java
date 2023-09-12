@@ -13,11 +13,10 @@ public class SearchExpenseDB implements SearchExpenseDBInt {
     @Override
     public Map<String, Object> searchExpense() {
         Map<String, Object> result = new HashMap<>();
-
         ExpenseDto expenseDto = new ExpenseDto();
         ExpenseSearchDao expenseSearchDao = new ExpenseDaoImplH2();
-
         ScannerProviderInt scannerProviderInt = new ScannerProvider();
+
         Scanner scanner = scannerProviderInt.getScannerInstance();
 
         int expenseId;
