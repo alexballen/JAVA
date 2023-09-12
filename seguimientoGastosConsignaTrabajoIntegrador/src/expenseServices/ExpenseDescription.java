@@ -12,7 +12,7 @@ public class ExpenseDescription implements ExpenseDescriptionInt {
 
         String descriptionOfExpenses;
         do {
-            System.out.println("Ingresa una nueva descripcion de tu gasto: ");
+            System.out.println("Ingresa la descripcion de tu gasto: ");
             descriptionOfExpenses = scanner.nextLine().trim();
 
             if (descriptionOfExpenses.isEmpty()) {
