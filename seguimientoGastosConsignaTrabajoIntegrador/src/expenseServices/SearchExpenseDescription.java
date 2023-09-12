@@ -3,35 +3,18 @@ package expenseServices;
 import dao.ExpenseDao;
 import dao.dto.ExpenseDto;
 import dao.impl.ExpenseDaoImplH2;
+import expenseServices.interfaces.ExpenseDescriptionInt;
 import expenseServices.interfaces.SearchExpenseDescriptionInt;
 
 import java.util.List;
-import java.util.Scanner;
-
 public class SearchExpenseDescription implements SearchExpenseDescriptionInt {
     @Override
     public void searchExpenseByDescription() {
         ExpenseDao expenseDao = new ExpenseDaoImplH2();
-        ExpenseDto expenseDto = new ExpenseDto();
-        Scanner scanner = new Scanner(System.in);
+        ExpenseDescriptionInt expenseDescriptionInt = new ExpenseDescription();
 
         //BUSQUEDA DE GASTO POR PALABRA CONTENIDA EN LA DESCRIPCION
-        String descriptionOfExpenses = "";
-        do {
-            System.out.println("Ingresa una palabra que creas que este en la descripcion para realizar tu busqueda: ");
-            descriptionOfExpenses = scanner.nextLine().trim();
-
-            if (descriptionOfExpenses.isEmpty()) {
-                System.out.println("El campo descripcion no puede estar vacío. Por favor, ingresa una descripcion válida.");
-            } else if (descriptionOfExpenses.length() < 5) {
-                System.out.println("Debes ingresar una descripción de gasto con al menos 5 caracteres.");
-            } else if (descriptionOfExpenses.length() >= 50) {
-                System.out.println("Debes ingresar una descripción de gasto con menos de 50 caracteres.");
-            }
-
-        } while (descriptionOfExpenses.isEmpty() || descriptionOfExpenses.length() < 5 || descriptionOfExpenses.length() >= 50);
-
-        List<ExpenseDto> filterByDescription = expenseDao.searchDescription(descriptionOfExpenses);
+        List<ExpenseDto> filterByDescription = expenseDao.searchDescription(expenseDescriptionInt.expenseDescription());
         for (ExpenseDto expense: filterByDescription){
             System.out.println("ID: " + expense.getExpense_id());
             System.out.println("Gasto: " + expense.getExpenseName());
