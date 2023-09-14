@@ -3,15 +3,25 @@ package expenseServices;
 import dao.ExpenseDao;
 import dao.dto.ExpenseDto;
 import dao.impl.ExpenseDaoImplH2;
+import exceptions.ExceptionHandling;
 import expenseServices.interfaces.ExpenseNameInt;
 import expenseServices.interfaces.SearchExpenseNameInt;
 
 import java.util.List;
 public class SearchExpenseName implements SearchExpenseNameInt {
     @Override
-    public void searchExpenseByName() {
+    public void searchExpenseByName() throws ExceptionHandling {
         ExpenseDao expenseDao = new ExpenseDaoImplH2();
         ExpenseNameInt expenseNameInt = new ExpenseName();
+
+        //EJEMPLO DE EXCEPCIONES CUSTOMIZADAS
+        if (expenseNameInt.expenseName().isEmpty()) {
+            throw new ExceptionHandling("El campo no puede estar vacio!");
+        } else if (expenseNameInt.expenseName().length() < 5) {
+            throw new ExceptionHandling("El campo nombre debe contener mas de 4 caracteres!");
+        } else if (expenseNameInt.expenseName().length() > 40) {
+            throw new ExceptionHandling("El campo nombre debe contener menos de 40 caracteres!");
+        }
 
         //BUSQUEDA DE GASTO POR PALABRA CONTENIDA EN EL NOMBRE DEL GASTO
         List<ExpenseDto> filterByName = expenseDao.searchName(expenseNameInt.expenseName());
