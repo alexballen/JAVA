@@ -1,11 +1,12 @@
 package expenseServices;
 
+import expenseServices.interfaces.ChooseWeekInt;
 import expenseServices.interfaces.ScannerProviderInt;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-public class ChooseWeek implements ChooseWeekInt{
+public class ChooseWeek implements ChooseWeekInt {
     @Override
     public Map<String, Object> chooseWeek(int numberDaysMonths) {
         Map<String,Object> result = new HashMap<>();
