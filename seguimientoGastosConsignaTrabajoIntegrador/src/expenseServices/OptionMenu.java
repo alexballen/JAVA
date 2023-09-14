@@ -4,6 +4,7 @@ import dao.ExpenseDao;
 import dao.ExpenseSearchDao;
 import dao.dto.ExpenseDto;
 import dao.impl.ExpenseDaoImplH2;
+import exceptions.ExceptionHandling;
 import expenseServices.interfaces.*;
 
 import java.util.Scanner;
@@ -121,7 +122,11 @@ public class OptionMenu implements OptionMenuInt {
                     expenseDao.descriptionUpdate(expenseDto);
                     break;
                 case 7:
-                    searchExpenseNameInt.searchExpenseByName();
+                    try {
+                        searchExpenseNameInt.searchExpenseByName();
+                    } catch (ExceptionHandling e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 8:
                     searchExpenseCategoryInt.searchExpenseByCategory();
