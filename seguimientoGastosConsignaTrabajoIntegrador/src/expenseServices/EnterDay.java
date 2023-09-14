@@ -1,5 +1,6 @@
 package expenseServices;
 
+import exceptions.ExceptionHandling;
 import expenseServices.interfaces.EnterDayInt;
 import expenseServices.interfaces.ScannerProviderInt;
 
