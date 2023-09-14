@@ -1,5 +1,8 @@
 package expenseServices.interfaces;
+
+import exceptions.ExceptionHandling;
+
 @FunctionalInterface
 public interface SearchExpenseNameInt {
-    void searchExpenseByName ();
+    void searchExpenseByName () throws ExceptionHandling;
 }
